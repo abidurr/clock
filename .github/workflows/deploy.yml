@@ -2,30 +2,41 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, master] # Trigger on main or master branch
+  workflow_dispatch: # Allow manual triggering
+
+permissions:
+  contents: write # Needed for pushing to gh-pages branch
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
+          cache: "npm" # Enable caching for faster builds
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci # Use 'npm install' if no package-lock.json
 
-      - name: Build
+      - name: Build project
         run: npm run build
         env:
-          CI: false # Add this if you have warnings treated as errors
+          CI: false # Prevents treating warnings as errors
+          REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }} # If you need env variables
 
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: build
-          branch: gh-pages
+          folder: build # The folder the action should deploy
+          branch: gh-pages # The branch the action should deploy to
+          clean: true # Automatically remove deleted files from the deploy branch
+          clean-exclude: |
+            .nojekyll
+            CNAME
