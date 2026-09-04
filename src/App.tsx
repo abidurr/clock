@@ -1,11 +1,15 @@
 import React from "react"
 import logo from "./logo.svg"
 import "./App.css"
+import { useState, useEffect } from "react"
+import moment from "moment-timezone"
 
 function App() {
-  const [time, setTime] = React.useState(new Date())
+  const [use24hr, setUse24hr] = useState(false)
+  const [time, setTime] = useState(new Date())
+  const [timezone, setTimezone] = useState(moment.tz.guess())
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date())
     }, 1000)
@@ -41,8 +45,19 @@ function App() {
           Learn React
         </a>*/}
         <p>Clock</p>
-        <p>{time.toLocaleTimeString()}</p>
-        <p>{time.toLocaleDateString()}</p>
+        {/*<button onClick={() => setUse24hr(!use24hr)}>
+          {use24hr ? "12-hour" : "24-hour"}
+        </button>*/}
+        {/*<p>{time.toLocaleTimeString()}</p>*/}
+        <p style={{ fontSize: "4em" }} onClick={() => setUse24hr(!use24hr)}>
+          {use24hr
+            ? moment.tz(time, timezone).format("HH:mm:ss")
+            : moment.tz(time, timezone).format("hh:mm:ss A")}
+        </p>
+        <p>
+          {timezone} {moment.tz(time, timezone).format("z")}
+        </p>
+        <p>{moment.tz(time, timezone).format("dddd, LL")}</p>
       </header>
     </div>
   )
