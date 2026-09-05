@@ -16,6 +16,29 @@ function App() {
     return () => clearInterval(timer)
   }, [])
 
+  const toggleFullscreen = (): void => {
+    const toggleButton = document.querySelector<HTMLButtonElement>(".toggle")
+    const element = document.querySelector<HTMLElement>(".element")
+
+    if (!toggleButton || !element) {
+      throw new Error("Toggle button or element not found in the DOM")
+    }
+
+    toggleButton.addEventListener("click", async (event: MouseEvent) => {
+      event.preventDefault()
+
+      try {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen()
+        } else {
+          await element.requestFullscreen()
+        }
+      } catch (error) {
+        console.error("Fullscreen operation failed:", error)
+      }
+    })
+  }
+
   return (
     <div
       className="App"
@@ -31,7 +54,7 @@ function App() {
       //   })
       // }}
     >
-      <header className="App-header">
+      <header className="App-header element">
         {/*<img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -44,7 +67,9 @@ function App() {
         >
           Learn React
         </a>*/}
-        <p>Clock</p>
+        <p className="toggle" onClick={() => toggleFullscreen()}>
+          Fullscreen
+        </p>
         {/*<button onClick={() => setUse24hr(!use24hr)}>
           {use24hr ? "12-hour" : "24-hour"}
         </button>*/}
