@@ -1,5 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap");
+
 .App {
   text-align: center;
+  font-family: Doto, monospace;
 }
 
 .App-logo {
@@ -14,7 +17,8 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  /*background-color: #282c34;*/
+  background-color: black;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

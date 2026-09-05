@@ -74,7 +74,10 @@ function App() {
           {use24hr ? "12-hour" : "24-hour"}
         </button>*/}
         {/*<p>{time.toLocaleTimeString()}</p>*/}
-        <p style={{ fontSize: "4em" }} onClick={() => setUse24hr(!use24hr)}>
+        <p
+          style={{ fontSize: "4em", fontFamily: "monospace" }}
+          onClick={() => setUse24hr(!use24hr)}
+        >
           {use24hr
             ? moment.tz(time, timezone).format("HH:mm:ss")
             : moment.tz(time, timezone).format("hh:mm:ss A")}
