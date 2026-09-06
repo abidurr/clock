@@ -4,12 +4,19 @@ import expand from "./images/expand.svg"
 import "./App.css"
 import { useState, useEffect } from "react"
 import moment from "moment-timezone"
+import { useAtom } from "jotai"
+import { atomWithStorage } from "jotai/utils"
+
+const use24hrAtom = atomWithStorage("use24hr", true)
+const timezoneAtom = atomWithStorage("timezone", moment.tz.guess())
+const labelsAtom = atomWithStorage("labels", true)
 
 function App() {
-  const [use24hr, setUse24hr] = useState(true)
+  const [use24hr, setUse24hr] = useAtom(use24hrAtom)
   const [time, setTime] = useState(new Date())
-  const [timezone, setTimezone] = useState(moment.tz.guess())
+  const [timezone, setTimezone] = useAtom(timezoneAtom)
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [showLabels, setShowLabels] = useAtom(labelsAtom)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -78,13 +85,20 @@ function App() {
           Learn React
         </a>*/}
 
-        <p>{moment.tz(time, timezone).format("dddd, LL")}</p>
+        <p
+          style={{
+            transition: "opacity 300ms ease-in-out",
+            opacity: showLabels ? 1 : 0,
+          }}
+        >
+          {moment.tz(time, timezone).format("dddd, LL")}
+        </p>
 
         <p
           style={{
             fontSize: "4em",
             // fontFamily: "Doto, monospace",
-            fontWeight: 800,
+            fontWeight: 900,
           }}
           onClick={() => setUse24hr(!use24hr)}
         >
@@ -92,7 +106,12 @@ function App() {
             ? moment.tz(time, timezone).format("HH:mm:ss")
             : moment.tz(time, timezone).format("hh:mm:ss A")}
         </p>
-        <p>
+        <p
+          style={{
+            transition: "opacity 300ms ease-in-out",
+            opacity: showLabels ? 1 : 0,
+          }}
+        >
           {formattedTimezone(timezone)}
           {" - "}
           {moment.tz(time, timezone).format("z")}
@@ -101,12 +120,27 @@ function App() {
           className="controls"
           style={{ display: "flex", alignItems: "center", gap: "12px" }}
         >
-          <p>24hr</p>
+          {/*<p>24hr</p>*/}
           <label className="switch">
-            <input type="checkbox" onChange={() => setUse24hr(!use24hr)} />
+            <input
+              checked={!use24hr}
+              type="checkbox"
+              onChange={() => setUse24hr(!use24hr)}
+            />
             <span className="slider round"></span>
           </label>
           <p>AM/PM</p>
+          <div style={{ width: "24px" }}></div>
+          {/*<p>Show labels</p>*/}
+          <label className="switch">
+            <input
+              checked={showLabels}
+              type="checkbox"
+              onChange={() => setShowLabels(!showLabels)}
+            />
+            <span className="slider round"></span>
+          </label>
+          <p>Labels</p>
           <div
             style={{
               display: "flex",
