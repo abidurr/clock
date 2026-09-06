@@ -84,8 +84,9 @@ function App() {
         >
           Learn React
         </a>*/}
-
+        <div style={{ height: "80px" }}></div>
         <p
+          className="hidden-label"
           style={{
             transition: "opacity 300ms ease-in-out",
             opacity: showLabels ? 1 : 0,
@@ -107,6 +108,7 @@ function App() {
             : moment.tz(time, timezone).format("hh:mm:ss A")}
         </p>
         <p
+          className="hidden-label"
           style={{
             transition: "opacity 300ms ease-in-out",
             opacity: showLabels ? 1 : 0,
@@ -146,7 +148,7 @@ function App() {
               display: "flex",
               alignItems: "center",
               gap: "12px",
-              marginLeft: "60px",
+              marginLeft: "40px",
               cursor: "pointer",
             }}
             onClick={() => toggleFullscreen()}
