@@ -130,9 +130,10 @@ function App() {
           style={{
             fontSize: "4em",
             // fontFamily: "Doto, monospace",
-            fontWeight: 900,
+            opacity: 0.85,
+            fontWeight: 800,
           }}
-          onClick={() => setUse24hr(!use24hr)}
+          // onClick={() => setUse24hr(!use24hr)}
         >
           {use24hr
             ? moment.tz(time, timezone).format("HH:mm:ss")
