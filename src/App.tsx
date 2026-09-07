@@ -10,6 +10,7 @@ import { atomWithStorage } from "jotai/utils"
 const use24hrAtom = atomWithStorage("use24hr", true)
 const timezoneAtom = atomWithStorage("timezone", moment.tz.guess())
 const labelsAtom = atomWithStorage("labels", true)
+const dateFormatAtom = atomWithStorage("dateFormat", "dddd, LL")
 
 // Replace / with " - " and "_" with " "
 const formattedTimezone = (timezone: string) => {
@@ -26,6 +27,7 @@ function App() {
   const [timezone, setTimezone] = useAtom(timezoneAtom)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [showLabels, setShowLabels] = useAtom(labelsAtom)
+  const [dateFormat, setDateFormat] = useAtom(dateFormatAtom)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -96,8 +98,33 @@ function App() {
             opacity: showLabels ? 1 : 0,
           }}
         >
-          {moment.tz(time, timezone).format("dddd, LL")}
+          {moment.tz(time, timezone).format(`${dateFormat}`)}
         </p>
+
+        <select
+          className="controls styled-select"
+          value={dateFormat}
+          onChange={(e) => setDateFormat(e.target.value)}
+        >
+          <option key="dddd, LL" value="dddd, LL">
+            {moment.tz(time, timezone).format("dddd, LL")}
+          </option>
+          <option key="LL" value="LL">
+            {moment.tz(time, timezone).format("LL")}
+          </option>
+          <option key="YYYY-MM-DD" value="YYYY-MM-DD">
+            {moment.tz(time, timezone).format("YYYY-MM-DD")}
+          </option>
+          <option key="L" value="L">
+            {moment.tz(time, timezone).format("L")}
+          </option>
+          <option key="ll" value="ll">
+            {moment.tz(time, timezone).format("ll")}
+          </option>
+          <option key="dddd" value="dddd">
+            {moment.tz(time, timezone).format("dddd")}
+          </option>
+        </select>
 
         <p
           style={{
