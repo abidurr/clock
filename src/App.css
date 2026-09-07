@@ -118,3 +118,10 @@ input:checked + .slider:before {
     opacity: 1 !important;
   }
 }
+
+.styled-select {
+  background: transparent;
+  color: white;
+  height: 32px;
+  border-radius: 8px;
+}

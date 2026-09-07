@@ -11,6 +11,15 @@ const use24hrAtom = atomWithStorage("use24hr", true)
 const timezoneAtom = atomWithStorage("timezone", moment.tz.guess())
 const labelsAtom = atomWithStorage("labels", true)
 
+// Replace / with " - " and "_" with " "
+const formattedTimezone = (timezone: string) => {
+  return timezone.toString().replace(/\//g, " - ").replace(/_/g, " ")
+}
+
+const timezoneOptions = moment.tz
+  .names()
+  .map((name) => ({ value: name, label: formattedTimezone(name) }))
+
 function App() {
   const [use24hr, setUse24hr] = useAtom(use24hrAtom)
   const [time, setTime] = useState(new Date())
@@ -49,11 +58,6 @@ function App() {
         console.error("Fullscreen operation failed:", error)
       }
     })
-  }
-
-  // Replace / with " - " and "_" with " "
-  const formattedTimezone = (timezone: string) => {
-    return timezone.toString().replace(/\//g, " - ").replace(/_/g, " ")
   }
 
   return (
@@ -118,6 +122,17 @@ function App() {
           {" - "}
           {moment.tz(time, timezone).format("z")}
         </p>
+        <select
+          className="controls styled-select"
+          value={timezone}
+          onChange={(e) => setTimezone(e.target.value)}
+        >
+          {timezoneOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
         <div
           className="controls"
           style={{ display: "flex", alignItems: "center", gap: "12px" }}
