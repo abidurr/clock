@@ -65,31 +65,8 @@ function App() {
   return (
     <div
       className="App"
-      // onClick={() => {
-      //   document.querySelector(".toggle").addEventListener("click", (event) => {
-      //     if (document.fullscreenElement) {
-      //       // If there is a fullscreen element, exit full screen.
-      //       document.exitFullscreen()
-      //       return
-      //     }
-      //     // Make the .element div fullscreen.
-      //     document.querySelector(".element").requestFullscreen()
-      //   })
-      // }}
     >
       <header className="App-header element">
-        {/*<img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>*/}
         <div style={{ height: "80px" }}></div>
         <p
           className="hidden-label"
@@ -129,11 +106,9 @@ function App() {
         <p
           style={{
             fontSize: "4em",
-            // fontFamily: "Doto, monospace",
             opacity: 0.85,
             fontWeight: 800,
           }}
-          // onClick={() => setUse24hr(!use24hr)}
         >
           {use24hr
             ? moment.tz(time, timezone).format("HH:mm:ss")
@@ -165,7 +140,6 @@ function App() {
           className="controls"
           style={{ display: "flex", alignItems: "center", gap: "12px" }}
         >
-          {/*<p>24hr</p>*/}
           <label className="switch">
             <input
               checked={!use24hr}
@@ -176,7 +150,6 @@ function App() {
           </label>
           <p>AM/PM</p>
           <div style={{ width: "24px" }}></div>
-          {/*<p>Show labels</p>*/}
           <label className="switch">
             <input
               checked={showLabels}
