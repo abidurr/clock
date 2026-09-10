@@ -244,7 +244,9 @@ function App() {
               alt="full screen"
               style={{ height: "40px", width: "40px" }}
             />*/}
-              <p className="switch-label">[ Fullscreen ]</p>
+              <p className="switch-label">
+                {isFullscreen ? "Exit" : "Go"} fullscreen
+              </p>
             </div>
           </div>
         </div>
