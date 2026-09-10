@@ -10,6 +10,7 @@ import { atomWithStorage } from "jotai/utils"
 const use24hrAtom = atomWithStorage("use24hr", true)
 const timezoneAtom = atomWithStorage("timezone", moment.tz.guess())
 const labelsAtom = atomWithStorage("labels", true)
+const dateLabelAtom = atomWithStorage("dateLabel", true)
 const dateFormatAtom = atomWithStorage("dateFormat", "dddd, LL")
 
 // Replace / with " - " and "_" with " "
@@ -27,6 +28,7 @@ function App() {
   const [timezone, setTimezone] = useAtom(timezoneAtom)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [showLabels, setShowLabels] = useAtom(labelsAtom)
+  const [showDateLabel, setShowDateLabel] = useAtom(dateLabelAtom)
   const [dateFormat, setDateFormat] = useAtom(dateFormatAtom)
 
   useEffect(() => {
@@ -63,45 +65,18 @@ function App() {
   }
 
   return (
-    <div
-      className="App"
-    >
+    <div className="App">
       <header className="App-header element">
         <div style={{ height: "80px" }}></div>
         <p
           className="hidden-label"
           style={{
             transition: "opacity 300ms ease-in-out",
-            opacity: showLabels ? 1 : 0,
+            opacity: showDateLabel ? 1 : 0,
           }}
         >
           {moment.tz(time, timezone).format(`${dateFormat}`)}
         </p>
-
-        <select
-          className="controls styled-select"
-          value={dateFormat}
-          onChange={(e) => setDateFormat(e.target.value)}
-        >
-          <option key="dddd, LL" value="dddd, LL">
-            {moment.tz(time, timezone).format("dddd, LL")}
-          </option>
-          <option key="LL" value="LL">
-            {moment.tz(time, timezone).format("LL")}
-          </option>
-          <option key="YYYY-MM-DD" value="YYYY-MM-DD">
-            {moment.tz(time, timezone).format("YYYY-MM-DD")}
-          </option>
-          <option key="L" value="L">
-            {moment.tz(time, timezone).format("L")}
-          </option>
-          <option key="ll" value="ll">
-            {moment.tz(time, timezone).format("ll")}
-          </option>
-          <option key="dddd" value="dddd">
-            {moment.tz(time, timezone).format("dddd")}
-          </option>
-        </select>
 
         <p
           style={{
@@ -125,57 +100,149 @@ function App() {
           {" - "}
           {moment.tz(time, timezone).format("z")}
         </p>
-        <select
-          className="controls styled-select"
-          value={timezone}
-          onChange={(e) => setTimezone(e.target.value)}
-        >
-          {timezoneOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <div
-          className="controls"
-          style={{ display: "flex", alignItems: "center", gap: "12px" }}
-        >
-          <label className="switch">
-            <input
-              checked={!use24hr}
-              type="checkbox"
-              onChange={() => setUse24hr(!use24hr)}
-            />
-            <span className="slider round"></span>
-          </label>
-          <p>AM/PM</p>
-          <div style={{ width: "24px" }}></div>
-          <label className="switch">
-            <input
-              checked={showLabels}
-              type="checkbox"
-              onChange={() => setShowLabels(!showLabels)}
-            />
-            <span className="slider round"></span>
-          </label>
-          <p>Labels</p>
+        <div style={{ height: "200px" }}></div>
+
+        <div className="bottom-controls">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: "12px",
+            }}
+          >
+            {/*<p className="switch-label">Labels</p>*/}
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+                // width: "300px",
+              }}
+            >
+              <label className="switch">
+                <input
+                  checked={showDateLabel}
+                  type="checkbox"
+                  onChange={() => setShowDateLabel(!showDateLabel)}
+                />
+                <span className="slider round"></span>
+              </label>
+              <p className="switch-label">Date label</p>
+            </div>
+            <select
+              className="controls styled-select"
+              value={dateFormat}
+              onChange={(e) => setDateFormat(e.target.value)}
+            >
+              <option key="dddd, LL" value="dddd, LL">
+                {moment.tz(time, timezone).format("dddd, LL")}
+              </option>
+              <option key="LL" value="LL">
+                {moment.tz(time, timezone).format("LL")}
+              </option>
+              <option key="YYYY-MM-DD" value="YYYY-MM-DD">
+                {moment.tz(time, timezone).format("YYYY-MM-DD")}
+              </option>
+              <option key="L" value="L">
+                {moment.tz(time, timezone).format("L")}
+              </option>
+              <option key="ll" value="ll">
+                {moment.tz(time, timezone).format("ll")}
+              </option>
+              <option key="dddd" value="dddd">
+                {moment.tz(time, timezone).format("dddd")}
+              </option>
+            </select>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              width: "200px",
+              gap: "16px",
+            }}
+          >
+            {/*<p className="switch-label">Timezone</p>*/}
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+                width: "300px",
+              }}
+            >
+              <label className="switch">
+                <input
+                  checked={showLabels}
+                  type="checkbox"
+                  onChange={() => setShowLabels(!showLabels)}
+                />
+                <span className="slider round"></span>
+              </label>
+              <p className="switch-label">Timezone</p>
+            </div>
+            <select
+              className="controls styled-select"
+              value={timezone}
+              onChange={(e) => setTimezone(e.target.value)}
+            >
+              {timezoneOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div
             style={{
               display: "flex",
               alignItems: "center",
+              flexDirection: "column",
               gap: "12px",
-              marginLeft: "40px",
-              cursor: "pointer",
             }}
-            onClick={() => toggleFullscreen()}
-            className="toggle"
           >
-            <img
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+                // width: "300px",
+              }}
+            >
+              <label className="switch">
+                <input
+                  checked={!use24hr}
+                  type="checkbox"
+                  onChange={() => setUse24hr(!use24hr)}
+                />
+                <span className="slider round"></span>
+              </label>
+              <p className="switch-label">Use AM/PM</p>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                marginLeft: "40px",
+                cursor: "pointer",
+                width: "200px",
+              }}
+              onClick={() => toggleFullscreen()}
+              className="toggle"
+            >
+              {/*<img
               src={isFullscreen ? collapse : expand}
               alt="full screen"
               style={{ height: "40px", width: "40px" }}
-            />
-            <p>Fullscreen</p>
+            />*/}
+              <p className="switch-label">[ Fullscreen ]</p>
+            </div>
           </div>
         </div>
       </header>
