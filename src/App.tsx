@@ -139,17 +139,20 @@ function App() {
               <option key="dddd, LL" value="dddd, LL">
                 {moment.tz(time, timezone).format("dddd, LL")}
               </option>
+              <option key="ddd, ll" value="ddd, ll">
+                {moment.tz(time, timezone).format("ddd, ll")}
+              </option>
               <option key="LL" value="LL">
                 {moment.tz(time, timezone).format("LL")}
+              </option>
+              <option key="ll" value="ll">
+                {moment.tz(time, timezone).format("ll")}
               </option>
               <option key="YYYY-MM-DD" value="YYYY-MM-DD">
                 {moment.tz(time, timezone).format("YYYY-MM-DD")}
               </option>
               <option key="L" value="L">
                 {moment.tz(time, timezone).format("L")}
-              </option>
-              <option key="ll" value="ll">
-                {moment.tz(time, timezone).format("ll")}
               </option>
               <option key="dddd" value="dddd">
                 {moment.tz(time, timezone).format("dddd")}
