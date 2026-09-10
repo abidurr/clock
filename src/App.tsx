@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import moment from "moment-timezone"
 import { useAtom } from "jotai"
 import { atomWithStorage } from "jotai/utils"
+import { set } from "yaml/dist/schema/yaml-1.1/set"
 
 const use24hrAtom = atomWithStorage("use24hr", true)
 const timezoneAtom = atomWithStorage("timezone", moment.tz.guess())
@@ -199,6 +200,25 @@ function App() {
                 </option>
               ))}
             </select>
+            {/*<div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                marginLeft: "40px",
+                cursor: "pointer",
+                width: "200px",
+              }}
+              className="toggle"
+            >*/}
+            <p
+              style={{ cursor: "pointer" }}
+              onClick={() => setTimezone(moment.tz.guess())}
+              className="switch-label"
+            >
+              Detect timezone
+            </p>
+            {/*</div>*/}
           </div>
 
           <div
@@ -212,9 +232,10 @@ function App() {
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
                 gap: "16px",
-                // width: "300px",
+                width: "200px",
               }}
             >
               <label className="switch">
@@ -227,7 +248,7 @@ function App() {
               </label>
               <p className="switch-label">Use AM/PM</p>
             </div>
-            <div
+            {/*<div
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -236,18 +257,20 @@ function App() {
                 cursor: "pointer",
                 width: "200px",
               }}
-              onClick={() => toggleFullscreen()}
               className="toggle"
+            >*/}
+            <p
+              onClick={() => toggleFullscreen()}
+              style={{
+                cursor: "pointer",
+                marginTop: "12px",
+                marginLeft: "0px",
+              }}
+              className="switch-label toggle"
             >
-              {/*<img
-              src={isFullscreen ? collapse : expand}
-              alt="full screen"
-              style={{ height: "40px", width: "40px" }}
-            />*/}
-              <p className="switch-label">
-                {isFullscreen ? "Exit" : "Go"} fullscreen
-              </p>
-            </div>
+              {isFullscreen ? "Exit" : "Go"} fullscreen
+            </p>
+            {/*</div>*/}
           </div>
         </div>
       </header>
